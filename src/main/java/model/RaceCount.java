@@ -1,13 +1,9 @@
 package model;
 
-public class RaceCount {
-    private final int value;
+import validation.RaceValidator;
 
-    public RaceCount(int value) {
-        this.value = value;
-    }
-
-    public int getValue() {
-        return value;
+public record RaceCount(int value) {
+    public RaceCount {
+        RaceValidator.validateRaceCount(value);
     }
 }
