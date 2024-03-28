@@ -6,9 +6,12 @@ import static validation.ErrorMessage.INPUT_RACE_COUNT_INPUT_NUMBER;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Scanner;
+import model.Cars;
 import model.RaceCount;
 import org.junit.jupiter.api.Test;
+import validation.ErrorMessage;
 
 
 class InputViewTest {
@@ -21,17 +24,47 @@ class InputViewTest {
 
     @Test
     void Cars_정상입력(){
+        String stringInput = "123,as12,가나다";
+        List<String> carNames = List.of("123","as12","가나다");
+        
+        inputView = setInputScanner(stringInput);
+        Cars cars = inputView.inputCars();
+        assertThat(getCarNameValue(cars,0)).isEqualTo(carNames.get(0));
+        assertThat(getCarNameValue(cars,1)).isEqualTo(carNames.get(1));
+        assertThat(getCarNameValue(cars,2)).isEqualTo(carNames.get(2));
+    }
 
+    private static String getCarNameValue(Cars cars,int index) {
+        return cars.playCars().get(index).carName().value();
     }
 
     @Test
     void Cars_비정상입력_중복콤마_예외출력(){
+        String stringInput = "123,,as12,가나다";
 
+        inputView = setInputScanner(stringInput);
+        testInputCarsCommaFormatError();
+    }
+
+    private void testInputCarsCommaFormatError() {
+        assertThatThrownBy(()-> inputView.inputCars())
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(ErrorMessage.INPUT_CARS_COMMA_FORMAT.getMessage());
     }
 
     @Test
     void Cars_비정상입력_컴마로_시작이거나_끝_예외출력(){
+        String stringInput1 = ",123,as12,가나다";
 
+        inputView = setInputScanner(stringInput1);
+
+        testInputCarsCommaFormatError();
+
+        String stringInput2 = "123,as12,가나다,";
+
+        inputView = setInputScanner(stringInput2);
+
+        testInputCarsCommaFormatError();
     }
 
     @Test
@@ -41,7 +74,7 @@ class InputViewTest {
 
         inputView = setInputScanner(normalCount);
         RaceCount raceCount = inputView.inputRaceCount();
-        assertThat(raceCount.getValue()).isEqualTo(normalCountInt);
+        assertThat(raceCount.value()).isEqualTo(normalCountInt);
     }
 
     @Test
@@ -56,8 +89,8 @@ class InputViewTest {
         inputView = setInputScanner(normalCountWithSpace2);
         RaceCount raceCount2 = inputView.inputRaceCount();
 
-        assertThat(raceCount1.getValue()).isEqualTo(normalCountInt);
-        assertThat(raceCount2.getValue()).isEqualTo(normalCountInt);
+        assertThat(raceCount1.value()).isEqualTo(normalCountInt);
+        assertThat(raceCount2.value()).isEqualTo(normalCountInt);
     }
 
     @Test
