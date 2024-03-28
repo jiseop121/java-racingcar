@@ -1,11 +1,10 @@
 package model;
 
 import java.util.List;
+import validation.RaceValidator;
 
-public class Cars {
-    public final List<Car> playCars;
-
-    public  Cars(List<Car> playCars) {
-        this.playCars = playCars;
+public record Cars(List<Car> playCars) {
+    public Cars {
+        RaceValidator.validateCars(playCars);
     }
 }

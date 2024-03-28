@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import model.Car;
 import model.Cars;
-import model.Distance;
-import model.Name;
+import model.RaceDistance;
+import model.CarName;
 import model.RaceCount;
 
 public class InputParser {
@@ -39,8 +39,8 @@ public class InputParser {
 
     private Car initCar(String carName){
         return new Car(
-                new Name(carName),
-                new Distance(0)
+                new CarName(carName),
+                new RaceDistance(0)
         );
     }
 }
