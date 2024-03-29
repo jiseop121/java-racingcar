@@ -14,10 +14,6 @@ public class RaceDistance {
         this.value++;
     }
 
-    public void minus() {
-        this.value--;
-    }
-
     public String getImageWithBars(){
         return "-".repeat(value);
     }
