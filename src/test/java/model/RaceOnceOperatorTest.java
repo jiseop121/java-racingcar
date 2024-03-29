@@ -17,6 +17,7 @@ class RaceOnceOperatorTest {
     private Cars cars;
     private final InputParser inputParser = new InputParser();
     private RaceOnceOperator raceOnceOperator;
+    private static final RaceCount RACE_COUNT = new RaceCount(3);
     @BeforeEach
     void setCars(){
         cars = inputParser.initCarsFromCarNames("abc,qwer,hong");
@@ -30,42 +31,31 @@ class RaceOnceOperatorTest {
         numberList.add(5);
         numberList.add(1);
         numberList.add(7);
-        raceOnceOperator = new RaceOnceOperator(new TestNumberGenerator(numberList), new RaceCount(3));
+        raceOnceOperator = new RaceOnceOperator(new TestNumberGenerator(numberList));
     }
 
     @Test
     void RaceOnceOperator_정상_distance_누적(){
-        raceOnceOperator.race(cars);
+        raceOnceOperator.race(cars,RACE_COUNT);
         assertThat(getRaceDistanceValue(0)).isEqualTo(0);
         assertThat(getRaceDistanceValue(1)).isEqualTo(0);
         assertThat(getRaceDistanceValue(2)).isEqualTo(1);
 
-        raceOnceOperator.race(cars);
+        raceOnceOperator.race(cars,RACE_COUNT);
         assertThat(getRaceDistanceValue(0)).isEqualTo(1);
         assertThat(getRaceDistanceValue(1)).isEqualTo(0);
         assertThat(getRaceDistanceValue(2)).isEqualTo(2);
     }
 
     @Test
-    void RaceOnceOperator_정상_isEnd_정상반환(){
-        //"hong"이 raceCount에 가장 먼저 도달한다.
-
-        while(!raceOnceOperator.isEnd(cars)){
-           raceOnceOperator.race(cars);
-        }
-
-        assertThat(getRaceDistanceValue(2)).isEqualTo(3);
-    }
-
-    @Test
     void RaceOnceOperator_비정상_race_종료조건_충족후에도_race실행_예외출력(){
         //"hong"이 raceCount에 가장 먼저 도달한다.
 
-        while(!raceOnceOperator.isEnd(cars)){
-            raceOnceOperator.race(cars);
-        }
+        RaceAllOperator raceAllOperator = new RaceAllOperator(raceOnceOperator);
 
-        assertThatThrownBy(() -> raceOnceOperator.race(cars))
+        raceAllOperator.raceAll(cars,RACE_COUNT);
+
+        assertThatThrownBy(() -> raceOnceOperator.race(cars,RACE_COUNT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(ErrorMessage.RACE_ALREADY_OVER.getMessage());
     }
