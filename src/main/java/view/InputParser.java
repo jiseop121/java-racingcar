@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import model.Car;
-import model.Cars;
-import model.RaceDistance;
-import model.CarName;
-import model.RaceCount;
+import model.domain.Car;
+import model.domain.Cars;
+import model.domain.RaceDistance;
+import model.domain.CarName;
+import model.domain.RaceCount;
 
 public class InputParser {
 

@@ -5,9 +5,7 @@ import static view.ViewMessage.INPUT_CARS_MESSAGE;
 import static view.ViewMessage.INPUT_RACE_COUNT_MESSAGE;
 import static view.ViewMessage.RESULT_START_MESSAGE;
 
-import model.domain.Car;
 import model.domain.CarName;
-import model.domain.Cars;
 import model.domain.WinningCarNames;
 
 public class OutputView {
@@ -42,8 +40,8 @@ public class OutputView {
             sb.append(carName.value());
             sb.append(", ");
         }
-        sb.delete(sb.length()-2,sb.length()-1);
-        sb.append(FINALLY_WIN);
+        sb.delete(sb.length()-2,sb.length());
+        sb.append(FINALLY_WIN.getMessage());
         return sb;
     }
 }

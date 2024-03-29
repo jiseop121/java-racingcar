@@ -12,25 +12,25 @@ public class RaceAllOperator {
     }
 
 
-    public String raceAll(Cars cars,RaceCount raceCount){
+    public String raceAll(Cars cars, RaceCount raceCount) {
         StringBuilder totalResultSb = new StringBuilder();
-        while(!isEnd(cars,raceCount)){
-            raceOnceOperator.race(cars,raceCount);
+        while (!isEnd(cars, raceCount)) {
+            raceOnceOperator.race(cars, raceCount);
             totalResultSb.append(raceOnceOperator.generateRaceOnceStatus(cars));
         }
         return totalResultSb.toString();
     }
 
-    public boolean isEnd(Cars cars,RaceCount raceCount){
+    public boolean isEnd(Cars cars, RaceCount raceCount) {
         for (Car car : cars.playCars()) {
-            if(isReachEndDistance(car,raceCount)){
+            if (isReachEndDistance(car, raceCount)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isReachEndDistance(Car car,RaceCount raceCount) {
+    private boolean isReachEndDistance(Car car, RaceCount raceCount) {
         return raceCount.value() <= car.raceDistance().getValue();
     }
 }

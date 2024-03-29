@@ -1,8 +1,8 @@
 package view;
 
 import java.util.Scanner;
-import model.Cars;
-import model.RaceCount;
+import model.domain.Cars;
+import model.domain.RaceCount;
 import validation.RaceValidator;
 
 public class InputView {
@@ -22,7 +22,7 @@ public class InputView {
 
     public RaceCount inputRaceCount(){
         String inputRaceCount = scanner.nextLine();
-        RaceValidator.validateRaceCount(inputRaceCount);
+        RaceValidator.validateInputRaceCount(inputRaceCount);
         return inputParser.initRaceCount(inputRaceCount);
     }
 

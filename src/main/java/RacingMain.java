@@ -1,7 +1,11 @@
+import java.util.Scanner;
+import manager.GameFlowManager;
+
 public class RacingMain {
+    private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // TODO: MVC 패턴을 기반으로 자동차 경주 미션 구현해보기
-        System.out.println("Hello, World!");
+        GameFlowManager gameFlowManager = new GameFlowManager(SCANNER);
+        gameFlowManager.doGame();
     }
 }
