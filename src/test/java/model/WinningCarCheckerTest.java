@@ -16,23 +16,21 @@ import view.InputParser;
 
 class WinningCarCheckerTest {
 
-    private WinningCarChecker winningCarChecker;
-    private Cars testCars;
-    private RaceOnceOperator raceOnceOperator;
+    private static final RaceCount RACE_COUNT = new RaceCount(3);
+
     private final InputParser inputParser = new InputParser();
+
+    private WinningCarChecker winningCarChecker;
+    private RaceOnceOperator raceOnceOperator;
+    private RaceAllOperator raceAllOperator;
+
+    private Cars testCars;
 
     @BeforeEach
     void initData(){
-        winningCarChecker = new WinningCarChecker(new RaceCount(3));
+        winningCarChecker = new WinningCarChecker();
         testCars = inputParser.initCarsFromCarNames("abc,qwer,hong");
-
         setTestRace();
-    }
-
-    private void runTestRace() {
-        while(!raceOnceOperator.isEnd(testCars)){
-            raceOnceOperator.race(testCars);
-        }
     }
 
     private void setTestRace() {
@@ -46,26 +44,27 @@ class WinningCarCheckerTest {
         numberList.add(5);
         numberList.add(1);
         numberList.add(7);
-        raceOnceOperator = new RaceOnceOperator(new TestNumberGenerator(numberList), new RaceCount(3));
+        raceOnceOperator = new RaceOnceOperator(new TestNumberGenerator(numberList));
+        raceAllOperator = new RaceAllOperator(raceOnceOperator);
     }
 
     @Test
     void WinningCarChecker_결과정상(){
-        runTestRace();
+        raceAllOperator.raceAll(testCars,RACE_COUNT);
 
         //abc : 2, qwer : 1, hong : 3
 
-        WinningCarNames winningCarNames = winningCarChecker.generateWinningCarNames(testCars);
+        WinningCarNames winningCarNames = winningCarChecker.generateWinningCarNames(testCars,RACE_COUNT);
         assertThat(winningCarNames.carNames())
                 .contains(testCars.playCars().get(2).carName());
     }
 
     @Test
     void WinningCarChecker_비정상_Empty_일때_예외출력(){
-        raceOnceOperator.race(testCars);
-        raceOnceOperator.race(testCars);
+        raceOnceOperator.race(testCars,RACE_COUNT);
+        raceOnceOperator.race(testCars,RACE_COUNT);
 
-        assertThatThrownBy(() -> winningCarChecker.generateWinningCarNames(testCars))
+        assertThatThrownBy(() -> winningCarChecker.generateWinningCarNames(testCars,RACE_COUNT))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage(WINNING_CAR_NAMES_EMPTY.getMessage());
     }
