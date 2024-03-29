@@ -2,9 +2,10 @@ package model;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static validation.ErrorMessage.RACE_COUNT_NOT_MINUS;
+import static validation.ErrorMessage.COUNT_NOT_MINUS;
 import static validation.ErrorMessage.RACE_COUNT_NO_OVER_1000;
 
+import model.domain.RaceCount;
 import org.junit.jupiter.api.Test;
 
 class RaceCountTest {
@@ -21,11 +22,11 @@ class RaceCountTest {
         int minusCount = -1;
         assertThatThrownBy(() -> new RaceCount(minusCount))
                 .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage(RACE_COUNT_NOT_MINUS.getMessage());
+                .hasMessage(COUNT_NOT_MINUS.getMessage());
     }
 
     @Test
-    void RaceCount_너무높은수_1000이상_예외출력(){
+    void RaceCount_너무높은수_1000초과_예외출력(){
         int overThousand = 1001;
         assertThatThrownBy(() -> new RaceCount(overThousand))
                 .isInstanceOf(IllegalArgumentException.class)

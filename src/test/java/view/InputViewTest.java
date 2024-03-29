@@ -8,8 +8,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Scanner;
-import model.Cars;
-import model.RaceCount;
+import model.domain.Cars;
+import model.domain.RaceCount;
 import org.junit.jupiter.api.Test;
 import validation.ErrorMessage;
 
@@ -17,10 +17,6 @@ import validation.ErrorMessage;
 class InputViewTest {
 
     private InputView inputView;
-
-    InputViewTest() {
-        inputView = null;
-    }
 
     @Test
     void Cars_정상입력(){
